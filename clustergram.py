@@ -13,6 +13,7 @@ def draw(x, clusters, targets=None, legend=True, cluster_padding=0.45, one_index
 
     if targets is not None:
         colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
+        # TODO: color limit can be fixed using mpl's builtin fn for cycling colors, need to look it up
         assert max(targets) < len(colors), "not enough colors for 1-1 mapping with targets"
         for i, line in enumerate(ax.lines[:-1]):
             line.set_color(colors[targets[i]])
