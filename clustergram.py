@@ -4,7 +4,7 @@ import numpy as np
 from .labeling import opt_cluster_labeling
 
 def draw(x, clusters, targets=None, legend=True, cluster_padding=0.45, one_indexed=False,
-         xlabel=None, fig_dpi=200, fig_size=(8,7)):
+         xlabel=None, fig_dpi=200, fig_size=(8,7), fig_facecolor='xkcd:mint green'):
     n_xvals, n_samples = clusters.shape
     padding = np.linspace(-cluster_padding, cluster_padding, n_samples)
 
@@ -40,12 +40,11 @@ def draw(x, clusters, targets=None, legend=True, cluster_padding=0.45, one_index
             nplines = np.array(ax.lines)
             ax.legend(nplines[idx], vals + one_indexed, loc=0)
 
-    fig.patch.set_facecolor('xkcd:mint green')
-
     for idx, _ in list(enumerate(yticks))[::2]:
         ax.axhspan(*yticks[idx:idx+2], alpha=0.1)
 
     fig.set_dpi(fig_dpi)
     fig.set_size_inches(fig_size)
+    fig.patch.set_facecolor(fig_facecolor)
 
     return fig, ax
