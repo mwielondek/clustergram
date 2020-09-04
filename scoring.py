@@ -30,6 +30,6 @@ def append(ax, xvals, clusters, y, X=None):
 
     fig = ax.figure
     fig_sz = fig.get_size_inches()
-    fig.set_size_inches(np.add(fig_sz, (0, len(scores))))
+    fig.set_size_inches(np.add(fig_sz, (0, len(scores) * plt_sz)))
 
     return fig, ax_new
