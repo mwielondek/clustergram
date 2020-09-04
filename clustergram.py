@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from .labeling import opt_cluster_labeling
 
 def draw(x, clusters, targets=None, legend=True, cluster_padding=0.45, one_indexed=False,
-         xlabel=None, fig_dpi=200, fig_size=(8,7), fig_facecolor='xkcd:mint green'):
+         xlabel=None, fig_dpi=200, fig_size=(8,7), fig_facecolor='xkcd:mint green', scoring=False, X=None):
     n_xvals, n_samples = clusters.shape
     padding = np.linspace(-cluster_padding, cluster_padding, n_samples)
 
@@ -47,5 +47,9 @@ def draw(x, clusters, targets=None, legend=True, cluster_padding=0.45, one_index
     fig.set_dpi(fig_dpi)
     fig.set_size_inches(fig_size)
     fig.patch.set_facecolor(fig_facecolor)
+
+    if scoring:
+        from .scoring import append
+        append(ax, x, clusters, targets, X)
 
     return fig, ax
