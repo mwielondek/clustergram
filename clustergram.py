@@ -1,15 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def draw_clustergram(gvals, clusters, targets=None, legend=True, cluster_padding=0.3, one_indexed=False):
+def draw(x, clusters, targets=None, legend=True, cluster_padding=0.45, one_indexed=False):
     plt.rcParams['figure.dpi'] = 200
     plt.rcParams['figure.figsize'] = (8,7)
 
-    n_gvals, n_samples = clusters.shape
+    n_xvals, n_samples = clusters.shape
     padding = np.linspace(-cluster_padding, cluster_padding, n_samples)
 
     fig, ax = plt.subplots()
-    ax.plot(gvals, clusters + padding + 1, 'o-', markerfacecolor=(1,1,1,0.9), markersize=3, drawstyle='steps-mid')
+    ax.plot(x, clusters + padding + 1, 'o-', markerfacecolor=(1,1,1,0.9), markersize=3, drawstyle='steps-mid')
 
     if targets is not None:
         colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
@@ -18,15 +18,15 @@ def draw_clustergram(gvals, clusters, targets=None, legend=True, cluster_padding
             line.set_color(colors[targets[i]])
 
     n_clusters = list(map(lambda row: np.unique(row).size, clusters))
-    ax.plot(gvals, n_clusters, ':', color='#CCCCCC')
+    ax.plot(x, n_clusters, ':', color='#CCCCCC')
 
     ax.grid(which='both', axis='x', color='#CCCCCC', linestyle=(0, (1, 10)))
-    ax.set_xticks(gvals, minor=True)
-    ax.set_xticks(gvals[::n_gvals//4], minor=False)
+    ax.set_xticks(x, minor=True)
+    ax.set_xticks(x[::n_xvals//4], minor=False)
 
     yticks = np.arange(1, max(n_clusters)+1, 1)
     ax.set_yticks(yticks, minor=False)
-    yticks = map(lambda x: [x - padding[0], x + padding[0]], yticks)
+    yticks = map(lambda y: [y - padding[0], y + padding[0]], yticks)
     yticks = np.array(list(yticks)).flatten().tolist()
     ax.set_yticks(yticks, minor=True)
 
