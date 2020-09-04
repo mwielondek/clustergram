@@ -3,10 +3,8 @@ import numpy as np
 
 from .labeling import opt_cluster_labeling
 
-def draw(x, clusters, targets=None, legend=True, cluster_padding=0.45, one_indexed=False):
-    plt.rcParams['figure.dpi'] = 200
-    plt.rcParams['figure.figsize'] = (8,7)
-
+def draw(x, clusters, targets=None, legend=True, cluster_padding=0.45, one_indexed=False,
+         xlabel=None, fig_dpi=200, fig_size=(8,7)):
     n_xvals, n_samples = clusters.shape
     padding = np.linspace(-cluster_padding, cluster_padding, n_samples)
 
@@ -33,7 +31,7 @@ def draw(x, clusters, targets=None, legend=True, cluster_padding=0.45, one_index
     ax.set_yticks(yticks, minor=True)
 
     ax.set_ylabel('Cluster ID')
-    ax.set_xlabel('g-values')
+    ax.set_xlabel(xlabel)
     if legend:
         if targets is None:
             ax.legend((np.arange(n_samples) + one_indexed).tolist() + ['# of clu.'], loc=0)
@@ -46,5 +44,8 @@ def draw(x, clusters, targets=None, legend=True, cluster_padding=0.45, one_index
 
     for idx, _ in list(enumerate(yticks))[::2]:
         ax.axhspan(*yticks[idx:idx+2], alpha=0.1)
+
+    fig.set_dpi(fig_dpi)
+    fig.set_size_inches(fig_size)
 
     return fig, ax
