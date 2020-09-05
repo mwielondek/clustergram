@@ -12,7 +12,7 @@ def append(ax, xvals, clusters, y, X=None):
     ]
     if X is not None:
         scores.append([metrics.silhouette_score(X, c) if np.unique(c).size > 1 else 0 for c in clusters])
-    scores_lbl = ['Adj. MI', 'Adj. Rand', 'V measure\nB=1', 'Homogen.', 'Completen.', 'Silhouette']
+    scores_lbl = ['Adj. MI', 'Adj. Rand', 'V measure\nbeta=1', 'Homogen.', 'Completen.', 'Silhouette']
 
     plt_sz = .4
     divider = make_axes_locatable(ax)
