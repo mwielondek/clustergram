@@ -14,3 +14,8 @@ Clustergram exposes only one function, `draw`, for which short parameter referen
   X        -  original feature array of the shape (n_samples, n_features) required for `sklearn.metrics.silhouette_score`
 ```
 For remaining parameters (mostly self-explanatory) see source code.
+
+## Example
+Clustergram with scoring plots, using data from the [zoo dataset](https://archive.ics.uci.edu/ml/datasets/Zoo), and the [BCPNN](https://github.com/mwielondek/BCPNN) classifier (which uses the x values as the softmax probability distribution parameter G in the transfer function).
+
+![Example screenshot](example_zoo.png?raw=true)
