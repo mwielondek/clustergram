@@ -4,6 +4,9 @@ Visualize clustering over some parameter
 ## Installation
 Download and either place inside your working directory, or append to your `sys.path`. Then import using `import clustergram`.
 
+In case you're missing some of the dependencies run:
+```$ pip install -r requirements.txt```
+
 ## Reference
 Clustergram exposes only one function, `draw`, for which short parameter reference follows below:
 ```
