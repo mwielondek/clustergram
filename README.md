@@ -12,11 +12,12 @@ $ pip install -r requirements.txt
 ## Reference
 Clustergram exposes only one function, `draw`, for which short parameter reference follows below:
 ```
-  x        -  x values
-  clusters -  array of the shape (n_xvals, n_samples) of cluster IDs to which each sample belongs
-  targets  -  if true labels are known, colors the plot accordingly
-  scoring  -  adds subplots with clustering scores using `sklearn.metrics`
-  X        -  original feature array of the shape (n_samples, n_features) required for `sklearn.metrics.silhouette_score`
+  x                 -  x values
+  clusters          -  array of the shape (n_xvals, n_samples) of cluster IDs to which each sample belongs
+  targets           -  if true labels are known, colors the plot accordingly
+  scoring           -  adds subplots with clustering scores using `sklearn.metrics`
+  X                 -  original feature array of the shape (n_samples, n_features) required for `sklearn.metrics.silhouette_score`
+  optimize_labeling -  for best visual results, optimize cluster labeling as to minimize number of samples changing clusters
 ```
 For remaining parameters (mostly self-explanatory) see source code.
 

@@ -1,4 +1,5 @@
 import numpy as np
+from operator import itemgetter
 
 def opt_cluster_labeling(prev, current):
     """Optimize cluster labeling as to minimize number of elements that change clusters."""
@@ -24,7 +25,7 @@ def opt_cluster_labeling(prev, current):
                 return prev
 
     # start with clusters that has the most corresponding entries
-    mappings = get_mapping(current, prev)[:, 0]         # already sorted, remove counts
+    mappings = _get_mappings(current, prev)[:, 0]         # already sorted, remove counts
     mappings = np.array(mappings.tolist())
     placeholder = -1                                    # for unassigned targets
     translations = np.ones(n_unique_curr).astype(int) * placeholder
@@ -46,7 +47,7 @@ def opt_cluster_labeling(prev, current):
     translated_current = list(map(lambda x: np.where(unique_curr == x)[0][0], current))
     return translations[translated_current]
 
-def get_mapping(x, y):
+def _get_mappings(x, y):
     """Returns list of mappings from x to y sorted by counts."""
     mappings = np.vstack((x, y)).T
     mappings = np.unique(mappings, axis=0, return_counts=True)

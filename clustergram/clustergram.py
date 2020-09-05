@@ -4,9 +4,15 @@ import matplotlib.pyplot as plt
 from .labeling import opt_cluster_labeling
 
 def draw(x, clusters, targets=None, legend=True, cluster_padding=0.45, one_indexed=False,
-         xlabel=None, fig_dpi=200, fig_size=(8,7), fig_facecolor='xkcd:mint green', scoring=False, X=None):
+         xlabel=None, fig_dpi=200, fig_size=(8,7), fig_facecolor='xkcd:mint green',
+         scoring=False, X=None, optimize_labeling=False):
+
     n_xvals, n_samples = clusters.shape
     padding = np.linspace(-cluster_padding, cluster_padding, n_samples)
+
+    if optimize_labeling:
+        for i in range(1, len(clusters)):
+            clusters[i] = opt_cluster_labeling(clusters[i - 1], clusters[i])
 
     fig, ax = plt.subplots()
     ax.plot(x, clusters + padding + 1, 'o-', markerfacecolor=(1,1,1,0.9), markersize=3, drawstyle='steps-mid')
