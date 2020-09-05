@@ -2,7 +2,7 @@
 Visualize clustering over some parameter
 
 ## Installation
-Download and either place inside your working directory, or append to your `sys.path`. Then import using `import clustergram`.
+Unpack the `clustergram` folder into your working directory, or append to your `sys.path`. Then import using `import clustergram`.
 
 In case you're missing some of the dependencies run:
 ```
