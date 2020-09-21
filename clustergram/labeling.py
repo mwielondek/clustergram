@@ -53,4 +53,4 @@ def _get_mappings(x, y):
     mappings = np.unique(mappings, axis=0, return_counts=True)
     mappings = map(np.ndarray.tolist, mappings)
     mappings = list(zip(*mappings))
-    return np.array(sorted(mappings, key=itemgetter(1), reverse=True))
+    return np.array(sorted(mappings, key=itemgetter(1), reverse=True), dtype='object')

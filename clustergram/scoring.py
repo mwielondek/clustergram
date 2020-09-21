@@ -18,7 +18,7 @@ def append(ax, xvals, clusters, y, X=None):
     divider = make_axes_locatable(ax)
 
     for score, name in zip(scores, scores_lbl):
-        ax_new = divider.append_axes("bottom", plt_sz, sharex=ax)
+        ax_new = divider.append_axes("bottom", plt_sz, sharex=ax, pad=0)
         ax_new.plot(xvals, score)
         ax_new.set_ylabel(name, rotation='horizontal', ha='right', va='center')
         ax_new.set_yticks([])
