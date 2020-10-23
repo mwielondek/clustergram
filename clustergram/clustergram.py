@@ -1,61 +1,71 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from dataclasses import dataclass
 
 from .labeling import opt_cluster_labeling
 
-def draw(x, clusters, targets=None, legend=True, cluster_padding=0.45, one_indexed=False,
-         xlabel=None, fig_dpi=200, fig_size=(8,7), fig_facecolor='xkcd:mint green',
-         scoring=False, X=None, optimize_labeling=False):
+@dataclass(init=True, eq=False)
+class Drawer:
 
-    n_xvals, n_samples = clusters.shape
-    padding = np.linspace(-cluster_padding, cluster_padding, n_samples)
+    cluster_padding: float = 0.45
+    optimize_labeling: bool = True
+    legend: bool = True
+    fig_dpi: int = 200
+    fig_size: tuple = (8,7)
+    fig_facecolor: str = 'xkcd:mint green'
 
-    if optimize_labeling:
-        for i in range(1, len(clusters)):
-            clusters[i] = opt_cluster_labeling(clusters[i - 1], clusters[i])
 
-    fig, ax = plt.subplots()
-    ax.plot(x, clusters + padding + 1, 'o-', markerfacecolor=(1,1,1,0.9), markersize=3, drawstyle='steps-mid')
+    def draw(self, x, clusters, targets=None, one_indexed=False, xlabel=None, scoring=False, scoring_X=None):
 
-    if targets is not None:
-        colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
-        # TODO: color limit can be fixed using mpl's builtin fn for cycling colors, need to look it up
-        assert max(targets) < len(colors), "not enough colors for 1-1 mapping with targets"
-        for i, line in enumerate(ax.lines[:-1]):
-            line.set_color(colors[targets[i]])
+        n_xvals, n_samples = clusters.shape
+        padding = np.linspace(-self.cluster_padding, self.cluster_padding, n_samples)
 
-    n_clusters = list(map(lambda row: np.unique(row).size, clusters))
-    ax.plot(x, n_clusters, ':', color='#CCCCCC')
+        if self.optimize_labeling:
+            for i in range(1, len(clusters)):
+                clusters[i] = opt_cluster_labeling(clusters[i - 1], clusters[i])
 
-    ax.grid(which='both', axis='x', color='#CCCCCC', linestyle=(0, (1, 10)))
-    ax.set_xticks(x, minor=True)
-    ax.set_xticks(x[::n_xvals//4], minor=False)
+        fig, ax = plt.subplots()
+        ax.plot(x, clusters + padding + 1, 'o-', markerfacecolor=(1,1,1,0.9), markersize=3, drawstyle='steps-mid')
 
-    yticks = np.arange(1, max(n_clusters)+1, 1)
-    ax.set_yticks(yticks, minor=False)
-    yticks = map(lambda y: [y - padding[0], y + padding[0]], yticks)
-    yticks = np.array(list(yticks)).flatten().tolist()
-    ax.set_yticks(yticks, minor=True)
+        if targets is not None:
+            colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
+            # TODO: color limit can be fixed using mpl's builtin fn for cycling colors, need to look it up
+            assert max(targets) < len(colors), "not enough colors for 1-1 mapping with targets"
+            for i, line in enumerate(ax.lines[:-1]):
+                line.set_color(colors[targets[i]])
 
-    ax.set_ylabel('Cluster ID')
-    ax.set_xlabel(xlabel)
-    if legend:
-        if targets is None:
-            ax.legend((np.arange(n_samples) + one_indexed).tolist() + ['# of clu.'], loc=0)
-        else:
-            vals, idx = np.unique(targets, return_index=True)
-            nplines = np.array(ax.lines)
-            ax.legend(nplines[idx], vals + one_indexed, loc=0)
+        n_clusters = list(map(lambda row: np.unique(row).size, clusters))
+        ax.plot(x, n_clusters, ':', color='#CCCCCC')
 
-    for idx, _ in list(enumerate(yticks))[::2]:
-        ax.axhspan(*yticks[idx:idx+2], alpha=0.1)
+        ax.grid(which='both', axis='x', color='#CCCCCC', linestyle=(0, (1, 10)))
+        ax.set_xticks(x, minor=True)
+        ax.set_xticks(x[::n_xvals//4], minor=False)
 
-    fig.set_dpi(fig_dpi)
-    fig.set_size_inches(fig_size)
-    fig.patch.set_facecolor(fig_facecolor)
+        yticks = np.arange(1, max(n_clusters)+1, 1)
+        ax.set_yticks(yticks, minor=False)
+        yticks = map(lambda y: [y - padding[0], y + padding[0]], yticks)
+        yticks = np.array(list(yticks)).flatten().tolist()
+        ax.set_yticks(yticks, minor=True)
 
-    if scoring:
-        from .scoring import append
-        append(ax, x, clusters, targets, X)
+        ax.set_ylabel('Cluster ID')
+        ax.set_xlabel(xlabel)
+        if self.legend:
+            if targets is None:
+                ax.legend((np.arange(n_samples) + one_indexed).tolist() + ['# of clu.'], loc=0)
+            else:
+                vals, idx = np.unique(targets, return_index=True)
+                nplines = np.array(ax.lines)
+                ax.legend(nplines[idx], vals + one_indexed, loc=0)
 
-    return fig, ax
+        for idx, _ in list(enumerate(yticks))[::2]:
+            ax.axhspan(*yticks[idx:idx+2], alpha=0.1)
+
+        fig.set_dpi(self.fig_dpi)
+        fig.set_size_inches(self.fig_size)
+        fig.patch.set_facecolor(self.fig_facecolor)
+
+        if scoring:
+            from .scoring import append
+            append(ax, x, clusters, targets, scoring_X)
+
+        return fig, ax
