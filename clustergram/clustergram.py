@@ -16,7 +16,8 @@ class Drawer:
     fig_facecolor: str = 'xkcd:mint green'
 
 
-    def draw(self, x, clusters, targets=None, one_indexed=False, xlabel=None, scoring=False, scoring_X=None):
+    def draw(self, x, clusters, targets=None, one_indexed=False, xlabel=None,
+                linewidth=1, scoring=False, scoring_X=None):
 
         n_xvals, n_samples = clusters.shape
         padding = np.linspace(-self.cluster_padding, self.cluster_padding, n_samples)
@@ -26,7 +27,8 @@ class Drawer:
                 clusters[i] = opt_cluster_labeling(clusters[i - 1], clusters[i])
 
         fig, ax = plt.subplots()
-        ax.plot(x, clusters + padding + 1, 'o-', markerfacecolor=(1,1,1,0.9), markersize=3, drawstyle='steps-mid')
+        size_param = dict(markersize=linewidth, linewidth=linewidth)
+        ax.plot(x, clusters + padding + 1, 'o-', drawstyle='steps-mid', markerfacecolor=(1,1,1,0.9), **size_param)
 
         if targets is not None:
             # colors = plt.rcParams['axes.prop_cycle']
