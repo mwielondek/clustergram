@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from cycler import cycler
 from dataclasses import dataclass
 
 from .labeling import opt_cluster_labeling
@@ -28,11 +29,15 @@ class Drawer:
         ax.plot(x, clusters + padding + 1, 'o-', markerfacecolor=(1,1,1,0.9), markersize=3, drawstyle='steps-mid')
 
         if targets is not None:
-            colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
-            # TODO: color limit can be fixed using mpl's builtin fn for cycling colors, need to look it up
-            assert max(targets) < len(colors), "not enough colors for 1-1 mapping with targets"
+            # colors = plt.rcParams['axes.prop_cycle']
+            # colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+            colors = plt.cm.tab10.colors
+            line_cycler     = cycler(linestyle=['-', '--'])
+            color_cycler    = cycler(color=colors)
+            styles = list(line_cycler * color_cycler)
             for i, line in enumerate(ax.lines[:-1]):
-                line.set_color(colors[targets[i]])
+                line.set_color(styles[targets[i]]['color'])
+                line.set_linestyle(styles[targets[i]]['linestyle'])
 
         n_clusters = list(map(lambda row: np.unique(row).size, clusters))
         ax.plot(x, n_clusters, ':', color='#CCCCCC')
