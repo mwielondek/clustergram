@@ -46,7 +46,7 @@ class Drawer:
 
         ax.grid(which='both', axis='x', color='#CCCCCC', linestyle=(0, (1, 10)))
         ax.set_xticks(x, minor=True)
-        ax.set_xticks(x[::n_xvals//4], minor=False)
+        ax.set_xticks(x[::max(1, n_xvals//4)], minor=False)
 
         yticks = np.arange(1, max(n_clusters)+1, 1)
         ax.set_yticks(yticks, minor=False)
