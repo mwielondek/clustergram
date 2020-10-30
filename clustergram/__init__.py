@@ -1,1 +1,1 @@
-from .clustergram import Drawer
+from .clustergram import Clustergram

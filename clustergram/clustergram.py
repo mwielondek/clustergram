@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from .labeling import opt_cluster_labeling
 
 @dataclass(init=True, eq=False)
-class Drawer:
+class Clustergram:
 
     cluster_padding: float = 0.45
     optimize_labeling: bool = True
