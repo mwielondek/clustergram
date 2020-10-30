@@ -17,7 +17,7 @@ class Drawer:
 
 
     def draw(self, x, clusters, targets=None, one_indexed=False, xlabel=None,
-                linewidth=1, scoring=False, scoring_X=None):
+                linewidth=1, scoring=False, scoring_X=None, scoring_annotate=True):
 
         n_xvals, n_samples = clusters.shape
         padding = np.linspace(-self.cluster_padding, self.cluster_padding, n_samples)
@@ -73,6 +73,6 @@ class Drawer:
 
         if scoring:
             from .scoring import append
-            append(ax, x, clusters, targets, scoring_X)
+            append(ax, x, clusters, targets, scoring_X, scoring_annotate)
 
         return fig, ax
