@@ -28,7 +28,9 @@ def append(ax, xvals, clusters, y, X=None, annotate=True):
         # print("Max {}: {} at {}".format(name, my, mx))
         ax_new.plot(mx, my, 'ro', markersize=3)
         if annotate:
-            ax_new.annotate('{:.2f}'.format(my).lstrip('0'), (mx, my - 0.3), color='0.3', fontsize='x-small')
+            y_delta = 0.3
+            y_delta = y_delta * -1 if my > 0.5 else y_delta
+            ax_new.annotate('{:.2f}'.format(my).lstrip('0'), (mx, my + y_delta), color='0.3', fontsize='x-small', va='center')
 
     fig = ax.figure
     fig_sz = fig.get_size_inches()
