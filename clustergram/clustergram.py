@@ -37,7 +37,7 @@ class Clustergram:
             line_cycler     = cycler(linestyle=['-', '--'])
             color_cycler    = cycler(color=colors)
             styles = list(line_cycler * color_cycler)
-            for i, line in enumerate(ax.lines[:-1]):
+            for i, line in enumerate(ax.lines):
                 line.set_color(styles[targets[i]]['color'])
                 line.set_linestyle(styles[targets[i]]['linestyle'])
 
