@@ -16,7 +16,7 @@ class Clustergram:
     fig_facecolor: str = 'xkcd:mint green'
 
 
-    def draw(self, x, clusters, targets=None, one_indexed=False, xlabel=None,
+    def draw(self, x, clusters, targets=None, sort=False, one_indexed=False, xlabel=None,
                 linewidth=1, scoring=False, scoring_X=None, scoring_annotate=True):
 
         n_xvals, n_samples = clusters.shape
@@ -25,6 +25,11 @@ class Clustergram:
         if self.optimize_labeling:
             for i in range(1, len(clusters)):
                 clusters[i] = opt_cluster_labeling(clusters[i - 1], clusters[i])
+
+        if sort and targets is not None:
+            idx = targets.argsort()
+            targets = targets[idx]
+            clusters = clusters[:, idx]
 
         fig, ax = plt.subplots()
         size_param = dict(markersize=linewidth, linewidth=linewidth)
