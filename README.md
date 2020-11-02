@@ -22,6 +22,7 @@ Clustergram exposes only one function, `draw`, for which short parameter referen
   x                 -  x values
   clusters          -  array of the shape (n_xvals, n_samples) of cluster IDs to which each sample belongs
   targets           -  if true labels are known, colors the plot accordingly
+  sort              -  sort by targets (if supplied), hence aggregating and making true clusters easier to spot
   scoring           -  adds subplots with clustering scores using `sklearn.metrics`
   scoring_X         -  original feature array of the shape (n_samples, n_features) required for `sklearn.metrics.silhouette_score`
   optimize_labeling -  for best visual results, optimize cluster labeling as to minimize number of samples changing clusters between each step
