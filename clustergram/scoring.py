@@ -2,17 +2,17 @@ import numpy as np
 from sklearn import metrics
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-def append(ax, xvals, clusters, y, X=None, annotate=True):
+def append(ax, xvals, clusters, y, X=None, annotate=True, beta=1):
     scores = [
          [metrics.adjusted_mutual_info_score(y, c) for c in clusters]
         ,[metrics.adjusted_rand_score(y, c) for c in clusters]
-        ,[metrics.v_measure_score(y, c, beta=1) for c in clusters]
+        ,[metrics.v_measure_score(y, c, beta=beta) for c in clusters]
         ,[metrics.homogeneity_score(y, c) for c in clusters]
         ,[metrics.completeness_score(y, c) for c in clusters]
     ]
     if X is not None:
         scores.append([metrics.silhouette_score(X, c) if np.unique(c).size > 1 else 0 for c in clusters])
-    scores_lbl = ['Adj. MI', 'Adj. Rand', 'V measure\nbeta=1', 'Homogen.', 'Completen.', 'Silhouette']
+    scores_lbl = ['Adj. MI', 'Adj. Rand', 'V measure\nbeta=%.1f' % beta, 'Homogen.', 'Completen.', 'Silhouette']
 
     plt_sz = .4
     divider = make_axes_locatable(ax)

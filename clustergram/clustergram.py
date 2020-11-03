@@ -17,7 +17,7 @@ class Clustergram:
 
 
     def draw(self, x, clusters, targets=None, sort=True, one_indexed=False, xlabel=None,
-                linewidth=1, scoring=False, scoring_X=None, scoring_annotate=True):
+                linewidth=1, scoring=False, scoring_X=None, scoring_annotate=True, scoring_beta=1):
 
         n_xvals, n_samples = clusters.shape
         padding = np.linspace(-self.cluster_padding, self.cluster_padding, n_samples)
@@ -78,6 +78,6 @@ class Clustergram:
 
         if scoring:
             from .scoring import append
-            append(ax, x, clusters, targets, scoring_X, scoring_annotate)
+            append(ax, x, clusters, targets, scoring_X, scoring_annotate, beta=scoring_beta)
 
         return fig, ax
